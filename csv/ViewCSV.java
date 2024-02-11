@@ -1,7 +1,21 @@
 package csv;
 
-public class ViewCSV {
-    
+import java.util.Map;
+import java.util.Set;
+
+public class ViewCSV implements InterfaceCSV {
+    private Set<CSVParser> parserSet;
+    public ViewCSV(Set<CSVParser> parserSet){
+        this.parserSet = parserSet;
+    }
+
+    public Object handle(Request request, Response response) {
+        response.header("Label", "Label");
+        Map<String, String[]> params = request.queryMap().toMap();
+
+        
+    }
+
 }
 // Mesh Network Community Coalition: "As a developer calling your web API, 
 // I can make API requests to load, view, or search the contents of a CSV file by calling the `loadcsv`, `viewcsv` 
