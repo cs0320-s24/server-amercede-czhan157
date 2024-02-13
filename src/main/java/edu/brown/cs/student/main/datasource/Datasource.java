@@ -1,2 +1,4 @@
-package edu.brown.cs.student.main.datasource;public interface Datasource {
+package edu.brown.cs.student.main.datasource;
+
+public interface Datasource {
 }

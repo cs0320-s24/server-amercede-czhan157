@@ -1,2 +1,4 @@
-package edu.brown.cs.student.main.csv;public class LoadCSV {
+package edu.brown.cs.student.main.csv;
+
+public class LoadCSV {
 }

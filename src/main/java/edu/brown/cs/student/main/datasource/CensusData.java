@@ -1,2 +1,4 @@
-package edu.brown.cs.student.main.datasource;public record CensusData() {
+package edu.brown.cs.student.main.datasource;
+
+public record CensusData() {
 }

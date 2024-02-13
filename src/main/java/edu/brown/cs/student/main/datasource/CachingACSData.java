@@ -1,2 +1,4 @@
-package edu.brown.cs.student.main.datasource;public class CachingACSData {
+package edu.brown.cs.student.main.datasource;
+
+public class CachingACSData {
 }

@@ -1,2 +1,4 @@
-package edu.brown.cs.student.main.csv;public interface InterfaceCSV {
+package edu.brown.cs.student.main.csv;
+
+public interface InterfaceCSV {
 }
