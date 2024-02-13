@@ -1,2 +1,4 @@
-package edu.brown.cs.student.main.server;public class viewCSVHandler {
+package edu.brown.cs.student.main.server;
+
+public class ViewCSVHandler {
 }
