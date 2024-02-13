@@ -1,2 +1,3 @@
-package edu.brown.cs.student.main.common;public class ServerException {
+package edu.brown.cs.student.main.common;
+public class ServerException extends Exception{
 }
