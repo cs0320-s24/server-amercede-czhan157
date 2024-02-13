@@ -1,6 +1,5 @@
 package edu.brown.cs.student.main.server;
 
-<<<<<<< Updated upstream
 import static spark.Spark.after;
 import spark.Spark;
 import java.util.HashSet;
@@ -39,9 +38,7 @@ public class Server {
         System.out.println("Server started.");
 
     }
-=======
 public class Server {
 
->>>>>>> Stashed changes
 }
 

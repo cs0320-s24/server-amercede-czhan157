@@ -1,16 +1,5 @@
 package edu.brown.cs.student.main.csv;
 
-<<<<<<< Updated upstream
-
-import java.util.Map;
-import java.util.Set;
-import java.util.List; 
-import java.util.ArrayList; 
-
-public class SearchCSV implements InterfaceCSV{
-    
-    private final Set<CSVParser> parserSet; 
-=======
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
@@ -19,7 +8,6 @@ import java.util.ArrayList;
 public class SearchCSV implements InterfaceCSV{
 
     private final Set<CSVParser> parserSet;
->>>>>>> Stashed changes
 
     public SearchCSV(Set<CSVParser> parserSet) {
         this.parserSet = parserSet;
@@ -44,19 +32,10 @@ public class SearchCSV implements InterfaceCSV{
                 result.add(row);
             }
         }
-<<<<<<< Updated upstream
-    
-        return result; 
-=======
 
         return result;
->>>>>>> Stashed changes
 
     }
 
 
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

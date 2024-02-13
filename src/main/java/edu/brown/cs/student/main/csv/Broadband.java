@@ -1,7 +1,6 @@
 package edu.brown.cs.student.main.csv;
 
 public class Broadband {
-<<<<<<< Updated upstream
 
         // proxy - intermediary step between a database 
     // proxy modifies info from database and do whatever with it
@@ -14,7 +13,6 @@ public class Broadband {
     // once you retrieve information, modify it and serialize into json
     
 }
-=======
     // proxy - intermediary step between a database
     // proxy modifies info from database and do whatever with it
     // before it reaches the user.
@@ -26,4 +24,3 @@ public class Broadband {
     // once you retrieve information, modify it and serialize into json
 
 }
->>>>>>> Stashed changes

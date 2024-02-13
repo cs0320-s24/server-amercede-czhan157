@@ -1,6 +1,5 @@
 package edu.brown.cs.student.main.server;
 
-<<<<<<< Updated upstream
 import spark.Request; 
 import spark.Response;
 import spark.Route; 
@@ -10,7 +9,6 @@ public class CensusHandler implements Route {
     // datasource grabs parameters extracted by handler calls API
     // handler calls datasource, datasource returns to handler, then handler serializes 
     // class for serialization, serialization is moshi 
-=======
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -24,5 +22,4 @@ public class CensusHandler implements Route {
     // datasource grabs parameters extracted by handler calls API
     // handler calls datasource, datasource returns to handler, then handler serializes
     // class for serialization, serialization is moshi
->>>>>>> Stashed changes
 }
