@@ -1,12 +1,21 @@
 package edu.brown.cs.student.main.server;
 
 import static spark.Spark.after;
+
+import edu.brown.cs.student.main.csv.LoadCSV;
+import edu.brown.cs.student.main.datasource.Datasource;
 import spark.Spark;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.brown.cs.student.main.csv;
+import edu.brown.cs.student.main.csv.*;
 public class Server {
+    private final Datasource state;
+
+    public Server(Datasource state) {
+        this.state = state;
+    }
+}
     public static void main(String[] args) {
         Spark.port(3232);
         after(
@@ -15,8 +24,9 @@ public class Server {
                     response.header("Access-Control-Allow-Origin", "loadcsv");
                     response.header("Access-Control-Allow-Origin", "viewcsv");
                     response.header("Access-Control-Allow-Origin", "searchcsv");
-                };)
+                });
 
+        Spark.get("census", new BroadbandHandler());
         String csvUtility = new String();
         Spark.get("loadcsv", new LoadCSV(csvParser(csvUtility)));
         Spark.get("viewCSV", new ViewCSV(CSVParser(csvUtility)));

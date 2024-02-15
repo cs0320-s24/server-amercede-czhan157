@@ -8,7 +8,14 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import com.squareup.moshi.Types;
+
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,6 +92,64 @@ public class BroadbandHandler implements Route {
             return adapter.toJson(responseMap);
         }
 
+    }
+
+    private String sendRequestForTheState() throws URISyntaxException, IOException, InterruptedException{
+        //This is actually building the API request
+        HttpRequest buildBroadbandApiRequest = HttpRequest.newBuilder()
+                .uri(new URI("https://api.census.gov/data/2010/dec/sf1?get=NAME&for=state:*"))
+                .GET()
+                .build();
+
+        //This builds the client so it can receive and send a response
+        HttpResponse<String> sentBroadbandApiResponse =
+                HttpClient.newBuilder()
+                        .build()
+                        .send(buildBroadbandApiRequest, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(sentBroadbandApiResponse);
+        System.out.println(sentBroadbandApiResponse.body());
+        return sentBroadbandApiResponse.body();
+        //This would then be a json thing that needs to be serialized, so that we can search for what we need
+    }
+
+    public String sendRequestForTheCounties(String stateNum) throws URISyntaxException, IOException, InterruptedException{
+        //This is actually building the API request
+        HttpRequest buildBroadbandApiRequest = HttpRequest.newBuilder()
+                .uri(new URI("https://api.census.gov/data/2010/dec/sf1?get=NAME&for=county:*&in=state:" + stateNum))
+                .GET()
+                .build();
+
+        //This builds the client so it can receive and send a response
+        HttpResponse<String> sentBroadbandApiResponse =
+                HttpClient.newBuilder()
+                        .build()
+                        .send(buildBroadbandApiRequest, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(sentBroadbandApiResponse);
+        System.out.println(sentBroadbandApiResponse.body());
+        return sentBroadbandApiResponse.body();
+        //This would then be a json thing that needs to be serialized, so that we can search for what we need
+    }
+
+    public String sendRequestForTheBroadbandPercent(String stateNum, String countyNum) throws URISyntaxException, IOException, InterruptedException {
+        //This is actually building the API request
+        HttpRequest buildBroadbandApiRequest = HttpRequest.newBuilder()
+                .uri(new URI("https://api.census.gov/data/2021/acs/acs1/subject/variables?get=NAME,S2802_C03_022E" +
+                        "&for=county:" + countyNum + "&in=state:" + stateNum))
+                .GET()
+                .build();
+
+        //This builds the client so it can receive and send a response
+        HttpResponse<String> sentBroadbandApiResponse =
+                HttpClient.newBuilder()
+                        .build()
+                        .send(buildBroadbandApiRequest, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(sentBroadbandApiResponse);
+        System.out.println(sentBroadbandApiResponse.body());
+        return sentBroadbandApiResponse.body();
+        //This would then be a json thing that needs to be serialized, so that we can search for what we need
     }
 }
 
