@@ -4,26 +4,61 @@ import java.util.Map;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.Reader;
 
-public class SearchCSV implements InterfaceCSV{
+import edu.brown.cs.student.main.common.APIException;
+import edu.brown.cs.student.main.common.BroadbandResponse;
+import edu.brown.cs.student.main.common.CSVResponse;
+import edu.brown.cs.student.main.common.ResultInfo;
+import edu.brown.cs.student.main.parser.DefaultFormatter;
+import edu.brown.cs.student.main.parser.CreatorFromRow.*;
+public class SearchCSV implements Route{
 
-    private final Set<CSVParser> parserSet;
+    private final String parserFile;
 
-    public SearchCSV(Set<CSVParser> parserSet) {
-        this.parserSet = parserSet;
+    public SearchCSV(String parserFile) {
+        this.parserFile = parserFile;
     }
 
+    @Override
     public Object handle(Request request, Response response) {
-        response.header("Label", "Label");
         // use a responseMap
-        Map<String, String[]> params = request.queryMap().toMap();
-        String query = request.queryParams("query");
-        CSVParser csvParser = getParser(parserSet.iterator());
-        List<List<String>> results = search(query, csvParser);
+        response.header("Content-Type", "application/json");
+    // fetching parameters
+    Map<String, String[]> parameters = request.queryMap().toMap();
+    String query = request.queryParams("query");
+    String mode = request.queryParams("mode");
+    try {
+
+      checkQuery(query);
+      Map<String, String[]> params = request.queryMap().toMap();
+        Reader csvReader = new BufferedReader(new FileReader(this.parserFile));
+        DefaultFormatter defaultFormatter = new DefaultFormatter();
+
+        CSVParser<List<List<String>>> parser =
+                new CSVParser<List<List<String>>>(csvReader, defaultFormatter, ",", true);
+      List<List<String>> result = search(query, parser);
+      String successResponse =
+          new CSVResponse(ResultInfo.success, result, parameters)
+              .serialize();
+      response.body(successResponse);
+    } catch (APIException e) {
+      // appending failure response
+      String failureResponse =
+          new BroadbandResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
+      response.body(failureResponse);
+        
+
 
     }
+}
 
-    private List<List<String>> search(String query, CSVParser parser){
+    private List<List<String>> search(String query, CSVParser<List<List<String>>> parser){
 
         List<List<String>> result = new ArrayList<>();
         List<List<String>> rows = parser.getRawResults();
@@ -38,4 +73,15 @@ public class SearchCSV implements InterfaceCSV{
     }
 
 
+  private void checkQuery(String query) throws APIException{
+
+    if (query == null) {
+      throw new APIException(
+          ResultInfo.bad_request_failure,
+          "query parameter is missing");
+    }
+  }
+
+
 }
+

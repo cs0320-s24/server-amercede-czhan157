@@ -1,6 +1,5 @@
-package edu.brown.cs.student.main.parser.CreatorFromRow;
+package edu.brown.cs.student.main.parser;
 
-import edu.brown.cs.student.main.parser.CreatorFromRow;
 
 import java.util.List;
 
@@ -8,3 +7,4 @@ public class DefaultFormatter implements CreatorFromRow<List<String>> {
     public List<String> create(List<String> row) {
         return row;
     }
+}

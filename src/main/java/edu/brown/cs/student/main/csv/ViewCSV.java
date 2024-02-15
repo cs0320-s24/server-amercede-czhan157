@@ -1,22 +1,60 @@
 package edu.brown.cs.student.main.csv;
+import edu.brown.cs.student.main.common.CSVException;
+import edu.brown.cs.student.main.common.CSVResponse;
+import edu.brown.cs.student.main.common.ResultInfo;
+import edu.brown.cs.student.main.common.BroadbandResponse;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import spark.Request;
+import spark.Response;
+import spark.Route;
 
-public class ViewCSV implements InterfaceCSV {
-    private Set<CSVParser> parserSet;
-    public ViewCSV(Set<CSVParser> parserSet){
-        this.parserSet = parserSet;
+
+public class ViewCSV implements Route{
+    private String parserFile;
+    public ViewCSV(String parserFile){
+        this.parserFile = parserFile;
     }
 
-    public Object handle(Request request, Response response) {
-        response.header("Label", "Label");
-        Map<String, String[]> params = request.queryMap().toMap();
-
-
+    /**
+   * Handles viewcsv endpoint Sets success response if no APIFailureException caught Sets failure
+   * response otherwise
+   *
+   * @param request The request object providing information about the HTTP request
+   * @param response The response object providing functionality for modifying the response
+   * @return null
+   */
+  @Override
+  public Object handle(Request request, Response response) {
+    response.header("Content-Type", "application/json");
+    // fetching parameters
+    Map<String, String[]> parameters = request.queryMap().toMap();
+    try {
+      if (!parameters.isEmpty())
+        throw new CSVException(
+          ResultInfo.bad_request_failure, "viewcsv should not have any parameters.");
+      Reader reader = new FileReader(this.parserFile);
+        CSVParser<List<List<String>>> csvParser;
+      String successResponse =
+          new CSVResponse(
+                  ResultInfo.success, csvParser.getRawResults(), parameters, csvParser.header)
+              .serialize();
+      response.body(successResponse);
+    } catch (CSVException e) {
+      // appending failure response
+      String failureResponse =
+          new BroadbandResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
+      response.body(failureResponse);
     }
-
+    return null;
+  }
 }
+
 // Mesh Network Community Coalition: "As a developer calling your web API,
 // I can make API requests to load, view, or search the contents of a CSV file by calling the `loadcsv`, `viewcsv`
 // or `searchcsv` endpoints. For `loadcsv`, I will provide the path of the CSV file to load (on the backend)."
