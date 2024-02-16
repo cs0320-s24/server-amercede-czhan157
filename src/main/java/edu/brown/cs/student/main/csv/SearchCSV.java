@@ -8,9 +8,11 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 
+import edu.brown.cs.student.main.common.APIResponse;
 import edu.brown.cs.student.main.common.APIException;
 import edu.brown.cs.student.main.common.BroadbandResponse;
 import edu.brown.cs.student.main.common.CSVResponse;
@@ -41,21 +43,31 @@ public class SearchCSV implements Route{
         DefaultFormatter defaultFormatter = new DefaultFormatter();
 
         CSVParser<List<List<String>>> parser =
-                new CSVParser<List<List<String>>>(csvReader, defaultFormatter, ",", true);
+                new CSVParser(csvReader, defaultFormatter, ",", true);
       List<List<String>> result = search(query, parser);
       String successResponse =
-          new CSVResponse(ResultInfo.success, result, parameters)
+          new CSVResponse(ResultInfo.success, "success", parameters)
               .serialize();
       response.body(successResponse);
     } catch (APIException e) {
       // appending failure response
       String failureResponse =
-          new BroadbandResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
+          new CSVResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
       response.body(failureResponse);
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> a81e47ceb9f706cc51a261a7ac6cef0782935f27
     }
+    catch (FileNotFoundException e) {
+        // appending failure response
+        String failureResponse =
+            new CSVResponse(ResultInfo.internal_failure, e.getMessage(), parameters).serialize();
+        response.body(failureResponse);
+      }
+    return null;
 }
 
     private List<List<String>> search(String query, CSVParser<List<List<String>>> parser){

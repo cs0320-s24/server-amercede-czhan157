@@ -3,6 +3,8 @@ package edu.brown.cs.student.main.csv;
 import edu.brown.cs.student.main.common.CSVException;
 import edu.brown.cs.student.main.csv.CSVParser;
 import edu.brown.cs.student.main.common.ResultInfo;
+import edu.brown.cs.student.main.common.CSVResponse;
+
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -27,14 +28,7 @@ public class LoadCSV implements Route {
         this.csvFile = csvFile;
     }
 
-    /**
-   * Handles loadcsv endpoint Sets success response if no APIFailureException caught Sets failure
-   * response otherwise
-   *
-   * @param request The request object providing information about the HTTP request
-   * @param response The response object providing functionality for modifying the response
-   * @return null
-   */
+
   @Override
   public Object handle(Request request, Response response) {
     response.header("Content-Type", "application/json");
@@ -66,12 +60,6 @@ public class LoadCSV implements Route {
     return null;
   }
 
-  /**
-   * Checks if filePath is null, does not exist or attempts to access upward directory
-   *
-   * @param filePath from http request params
-   * @throws APIFailureException pass on to handle
-   */
   private void checkFilePath(String filePath) throws CSVException {
     if (filePath == null || filePath == "") {
       throw new  CSVException(

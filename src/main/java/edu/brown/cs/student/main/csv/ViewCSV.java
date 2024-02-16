@@ -5,6 +5,7 @@ import edu.brown.cs.student.main.common.ResultInfo;
 import edu.brown.cs.student.main.common.BroadbandResponse;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.List;
@@ -21,14 +22,7 @@ public class ViewCSV implements Route{
         this.parserFile = parserFile;
     }
 
-    /**
-   * Handles viewcsv endpoint Sets success response if no APIFailureException caught Sets failure
-   * response otherwise
-   *
-   * @param request The request object providing information about the HTTP request
-   * @param response The response object providing functionality for modifying the response
-   * @return null
-   */
+    
   @Override
   public Object handle(Request request, Response response) {
     response.header("Content-Type", "application/json");
@@ -42,13 +36,18 @@ public class ViewCSV implements Route{
         CSVParser<List<List<String>>> csvParser;
       String successResponse =
           new CSVResponse(
-                  ResultInfo.success, csvParser.getRawResults(), parameters, csvParser.header)
+                  ResultInfo.success, "SUCCESS", parameters)
               .serialize();
       response.body(successResponse);
     } catch (CSVException e) {
       // appending failure response
       String failureResponse =
-          new BroadbandResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
+          new CSVResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
+      response.body(failureResponse);
+    }
+    catch (FileNotFoundException e) {
+      // appending failure response
+      String failureResponse = "File not found!";
       response.body(failureResponse);
     }
     return null;
