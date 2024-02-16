@@ -31,7 +31,7 @@ public class Server {
     String csvUtility = "data/stars/stardata.csv";
 
     // Register the handlers properly
-    Spark.get("/loadcsv", new LoadCSV(csvUtility));
+    Spark.get("loadcsv", new LoadCSV(csvUtility));
     Spark.get("/viewcsv", new ViewCSV(csvUtility));
     Spark.get("/searchcsv", new SearchCSV(csvUtility));
     Spark.get("/census", new BroadbandHandler(state));

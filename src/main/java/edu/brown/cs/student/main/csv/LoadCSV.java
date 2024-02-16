@@ -51,7 +51,7 @@ public class LoadCSV implements Route {
           new CSVResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
       response.body(failureResponse);
     }
-    return null;
+    return "Success!";
   }
 
   private void checkFilePath(String filePath) throws CSVException {
