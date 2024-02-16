@@ -1,7 +1,7 @@
 package edu.brown.cs.student.main.common;
 
 public class CSVException extends Exception {
-    private final ResultInfo resultType;
+  private final ResultInfo resultType;
   private final String message;
 
   public CSVException(ResultInfo resultType, String message) {
@@ -16,5 +16,5 @@ public class CSVException extends Exception {
 
   public String getMessage() {
     return message;
-}
+  }
 }

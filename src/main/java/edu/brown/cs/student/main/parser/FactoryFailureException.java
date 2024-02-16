@@ -8,16 +8,16 @@ import java.util.List;
  * Feel free to expand or supplement or use it for other purposes.
  */
 public class FactoryFailureException extends Exception {
-    final List<String> row;
+  final List<String> row;
 
-    public FactoryFailureException(String message, List<String> row) {
-        super(message);
-        this.row = new ArrayList<>(row);
-    }
+  public FactoryFailureException(String message, List<String> row) {
+    super(message);
+    this.row = new ArrayList<>(row);
+  }
 
-    public List<String> getRow() {
-        return new ArrayList<>(row);
-    }
+  public List<String> getRow() {
+    return new ArrayList<>(row);
+  }
 }
 
 // ./run -f ./testing_csvs/test1.csv -s "Tim"
