@@ -12,6 +12,6 @@ public class CachedBroadBandSearcher {
     private APIException apiException;
 
     public CachedBroadBandSearcher(Searcher searcher) {
-        
+
     }
 }

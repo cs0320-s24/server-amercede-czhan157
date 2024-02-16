@@ -1,12 +1,14 @@
 package edu.brown.cs.student.main.parser;
 
+import edu.brown.cs.student.main.csv.CSVParser;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.List;
 
 //I'm not sure which class it's importing From
-import csv.CSVParser;
+//import csv.CSVParser;
 
 public final class Main {
     /**

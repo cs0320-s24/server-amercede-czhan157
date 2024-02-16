@@ -50,7 +50,7 @@ public class LoadCSV implements Route {
         CSVParser<List<List<String>>> csvParser;
         // appending success response
         String successResponse =
-            
+
             new CSVResponse(ResultInfo.success, "Successfully loaded CSV", parameters).serialize();
         response.body(successResponse);
       } catch (IOException e) {
