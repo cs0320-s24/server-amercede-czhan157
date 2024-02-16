@@ -13,6 +13,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
+/**
+ * State Codes is a class that handles getting the state codes from the CensusAPI.
+ * It also turns json objects into java from what it gets from the API in deserializeStateCodes
+ * It returns a list of list of strings in getStateCodes
+ */
 public class StateCodes {
 
   private List<List<String>> theListOfStateCodes;
@@ -38,8 +43,6 @@ public class StateCodes {
             .send(buildBroadbandApiRequest, HttpResponse.BodyHandlers.ofString());
 
     return sentBroadbandApiResponse.body();
-    // This would then be a json thing that needs to be serialized, so that we can search for what
-    // we need
   }
 
   private List<List<String>> deserializeStateCodes(String jsonList)
@@ -51,16 +54,13 @@ public class StateCodes {
     JsonAdapter<List<List<String>>> listOfJsonStateCodes = moshi.adapter(listWeNeed);
     // Finally read the json string:
     try {
-      List<List<String>> stateCodeListJava = listOfJsonStateCodes.fromJson(jsonList);
-      // In the beginning, the soup is empty. There's nothing in the pot.
 
+      List<List<String>> stateCodeListJava = listOfJsonStateCodes.fromJson(jsonList);
       return stateCodeListJava;
     } catch (IOException e) {
-      // In a real system, we wouldn't println like this, but it's useful for demonstration:
       System.err.println("StateCodes: string wasn't valid JSON.");
       throw e;
     } catch (JsonDataException e) {
-      // In a real system, we wouldn't println like this, but it's useful for demonstration:
       System.err.println("StateCodes: JSON didn't have the right fields.");
       throw e;
     }

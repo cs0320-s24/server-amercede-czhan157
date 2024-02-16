@@ -47,8 +47,8 @@ public class BroadbandHandler implements Route {
     // So we don't run out of memory and can work with a caching system
     Map<String, Object> responseMap = new HashMap<>();
 
-    String nameOfState = request.queryParams("statename"); // lat
-    String nameOfCounty = request.queryParams("countyname"); // lon
+    String nameOfState = request.queryParams("statename");
+    String nameOfCounty = request.queryParams("countyname");
 
     if (nameOfState == null || nameOfCounty == null) {
       // Bad request! Send an error response.
@@ -112,7 +112,7 @@ public class BroadbandHandler implements Route {
 
       System.out.println("Try 4");
       responseMap.put(
-          "broadband", theListWeNeedOfBroadbandPercent);
+          "broadband", jsonBroadbandPercentAdapter.toJson(theListWeNeedOfBroadbandPercent));
 
 
       System.out.println("Try 5");
