@@ -1,7 +1,9 @@
 package edu.brown.cs.student;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import edu.brown.cs.student.main.datasource.CountyCodes;
 import edu.brown.cs.student.main.datasource.StateCodes;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -45,5 +47,32 @@ public class TestStateCodes {
       }
     }
     assertEquals(51, Integer.valueOf(currentStateNum));
+  }
+
+  @Test
+  public void testThrowsThisError()
+          throws URISyntaxException, IOException, InterruptedException {
+    StateCodes theOfficialStateCodes = new StateCodes();
+    List<List<String>> theListOfStateCodes = theOfficialStateCodes.getStateCodes();
+
+    // This might need to happen again and again
+    String stateQuery = "South Virginia";
+    String currentStateNum = "";
+    for (List<String> i : theListOfStateCodes) {
+      if (i.contains(stateQuery)) {
+        currentStateNum = i.get(1);
+      }
+    }
+    assertEquals(51, Integer.valueOf(currentStateNum));
+  }
+  @Test
+  public void testThrowsIOException()
+          throws URISyntaxException, IOException, InterruptedException {
+
+    assertThrows(IOException.class,
+            () -> {
+
+              CountyCodes theOfficialCountyCodes = new CountyCodes(null);
+            });
   }
 }

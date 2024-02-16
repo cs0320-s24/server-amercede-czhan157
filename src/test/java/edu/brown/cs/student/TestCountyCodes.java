@@ -1,6 +1,7 @@
 package edu.brown.cs.student;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import edu.brown.cs.student.main.datasource.CountyCodes;
 import java.io.IOException;
@@ -47,5 +48,25 @@ public class TestCountyCodes {
     }
     assertEquals(199, Integer.valueOf(currentCountyNum));
   }
-  // assertEquals(199, Integer.valueOf(currentCountyNum));
+
+  @Test
+  public void testThrowsIOExceptionForNull()
+          throws URISyntaxException, IOException, InterruptedException {
+
+    assertThrows(IOException.class,
+            () -> {
+
+              CountyCodes theOfficialCountyCodes = new CountyCodes(null);
+            });
+  }
+  @Test
+  public void testThrowsIOExceptionForString()
+          throws URISyntaxException, IOException, InterruptedException {
+
+    assertThrows(IOException.class,
+            () -> {
+
+              CountyCodes theOfficialCountyCodes = new CountyCodes("hello");
+            });
+  }
 }

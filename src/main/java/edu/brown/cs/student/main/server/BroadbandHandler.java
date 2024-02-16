@@ -27,6 +27,7 @@ public class BroadbandHandler implements Route {
       throws IOException, URISyntaxException, InterruptedException {
     // This is everything for the state codes
     // We only need to do this first part once
+
     StateCodes theOfficialStateCodes = new StateCodes();
     List<List<String>> theListOfStateCodes = theOfficialStateCodes.getStateCodes();
 
@@ -49,8 +50,6 @@ public class BroadbandHandler implements Route {
     String nameOfState = request.queryParams("statename"); // lat
     String nameOfCounty = request.queryParams("countyname"); // lon
 
-    System.out.println("In the handle method");
-
     if (nameOfState == null || nameOfCounty == null) {
       // Bad request! Send an error response.
       responseMap.put("query_nameOfState", nameOfState);
@@ -66,9 +65,7 @@ public class BroadbandHandler implements Route {
     String currentStateNum = "";
     for (List<String> i : theListOfStateCodes) {
       if (i.contains(stateQuery)) {
-        System.out.println(i);
         currentStateNum = i.get(1);
-        System.out.println(i.get(1));
       }
     }
 
@@ -82,9 +79,7 @@ public class BroadbandHandler implements Route {
     String currentCountyNum = "";
     for (List<String> i : theListOfCountyCodes) {
       if (i.contains(countyQuery)) {
-        System.out.println(i);
         currentCountyNum = i.get(2);
-        System.out.println(i.get(2));
       }
     }
 
@@ -94,24 +89,39 @@ public class BroadbandHandler implements Route {
     List<List<String>> theListOfBroadbandPercents =
         theOfficialBroadbandPercents.getBroadbandPercent();
     List<String> theListWeNeedOfBroadbandPercent = theListOfBroadbandPercents.get(1);
+
+    System.out.println("Pre-try");
     // Generate the reply
     try {
+
+      System.out.println("Try 1");
       //            double lat_double = Double.parseDouble(lat);
       //            double lon_double = Double.parseDouble(lon);
       TargetLocation location = new TargetLocation(nameOfState, nameOfCounty);
+
+      System.out.println("Try 2");
       // Low-level NWS API invocation isn't the job of this class!
       // Neither is caching! Just get the data from whatever the source is.
       BroadbandData data = state.getBroadbandPercentage(location);
+
+
+      System.out.println("Try 3");
       // Building responses *IS* the job of this class:
       responseMap.put("type", "success");
 
+
+      System.out.println("Try 4");
       responseMap.put(
-          "broadband", jsonBroadbandPercentAdapter.toJson(theListWeNeedOfBroadbandPercent));
+          "broadband", theListWeNeedOfBroadbandPercent);
+
+
+      System.out.println("Try 5");
       // Decision point; note the difference vs. this
       // responseMap.put("temperature", data);
-
       return adapter.toJson(responseMap);
     } catch (DatasourceException e) {
+
+      System.out.println("Catch 1");
       // Issues getting the data. Return an error response.
       responseMap.put("query_nameOfCounty", nameOfCounty);
       responseMap.put("query_nameOfState", nameOfState);
@@ -120,6 +130,8 @@ public class BroadbandHandler implements Route {
       responseMap.put("details", e.getMessage());
       return adapter.toJson(responseMap);
     } catch (IllegalArgumentException e) {
+
+      System.out.println("Catch 2");
       // Invalid nameOfCounty or nameOFState, probably. Return an error response.
       responseMap.put("query_nameOfCounty", nameOfCounty);
       responseMap.put("query_nameOfState", nameOfState);
@@ -127,6 +139,9 @@ public class BroadbandHandler implements Route {
       responseMap.put("error_type", "bad_parameter");
       responseMap.put("details", e.getMessage());
       return adapter.toJson(responseMap);
+    }
+    catch(Exception e){
+      return e.getMessage();
     }
   }
 }
