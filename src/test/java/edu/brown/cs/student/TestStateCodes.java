@@ -1,6 +1,5 @@
 package edu.brown.cs.student;
 
-<<<<<<< HEAD
 import edu.brown.cs.student.main.datasource.StateCodes;
 import org.junit.jupiter.api.Test;
 
@@ -30,22 +29,8 @@ public class TestStateCodes {
         List<String> expectedList = Arrays.asList(expected);
         assertEquals(expectedList, theStateCodeListWeNeed);
     }
+
     @Test
-    public void testAreWeGettingTheRightStateCode() throws URISyntaxException, IOException, InterruptedException {
-        StateCodes theOfficialStateCodes = new StateCodes();
-        List<List<String>> theListOfStateCodes = theOfficialStateCodes.getStateCodes();
-=======
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import edu.brown.cs.student.main.datasource.StateCodes;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
-import org.junit.jupiter.api.Test;
->>>>>>> 552bdb8f85429d4d9abe6576718f84597d52499a
-
-public class TestStateCodes {
-  @Test
   public void testAreWeGettingTheRightStateCode()
       throws URISyntaxException, IOException, InterruptedException {
     StateCodes theOfficialStateCodes = new StateCodes();
@@ -62,3 +47,4 @@ public class TestStateCodes {
     assertEquals(51, Integer.valueOf(currentStateNum));
   }
 }
+  
