@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import spark.Request;
@@ -45,8 +44,7 @@ public class LoadCSV implements Route {
         Reader csvReader = new BufferedReader(new FileReader(filePath));
         DefaultFormatter defaultFormatter = new DefaultFormatter();
 
-        CSVParser parser =
-            new CSVParser(csvReader, true);
+        CSVParser parser = new CSVParser(csvReader, true);
 
         CSVResponse csvResponse =
             new CSVResponse(ResultInfo.success, "Successfully loaded CSV!", parameters);

@@ -1,6 +1,5 @@
 package edu.brown.cs.student.main.csv;
 
-import edu.brown.cs.student.main.parser.CreatorFromRow;
 import edu.brown.cs.student.main.parser.FactoryFailureException;
 import java.io.BufferedReader;
 import java.io.Reader;
@@ -24,8 +23,7 @@ public class CSVParser {
    * @param headers: indicates whether the data to be parsed has a header line
    * @param commaString: character to split on
    */
-  public CSVParser(
-      Reader reader, Boolean headers) {
+  public CSVParser(Reader reader, Boolean headers) {
 
     if (reader == null) {
       throw new IllegalArgumentException("Reader must not be null.");
@@ -61,7 +59,7 @@ public class CSVParser {
       throws FactoryFailureException, Exception {
 
     this.rawRows = new ArrayList<>(); // will eventually contain raw data
-    
+
     this.columnNames = null;
     this.numColumns = 0;
 
@@ -86,7 +84,6 @@ public class CSVParser {
     return rawRows;
   }
 
-
   /**
    * returns the raw rows
    *
@@ -95,8 +92,6 @@ public class CSVParser {
   public List<List<String>> getRawResults() {
     return this.rawRows;
   }
-
-
 
   /**
    * returns column names

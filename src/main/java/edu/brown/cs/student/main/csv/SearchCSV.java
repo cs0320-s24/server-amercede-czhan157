@@ -75,8 +75,7 @@ public class SearchCSV implements Route {
     return null;
   }
 
-  private List<List<String>> search(
-      String query, CSVParser parser, String column) {
+  private List<List<String>> search(String query, CSVParser parser, String column) {
 
     List<List<String>> rows = parser.getRawResults();
     List<List<String>> result;
