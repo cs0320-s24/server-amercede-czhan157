@@ -41,30 +41,34 @@ public class SearchCSV implements Route {
       String header = request.queryParams("header");
 
       checkQuery(query);
-      Reader csvReader = new BufferedReader(new FileReader(dirPath + this.parserFile));
+      Reader csvReader = new BufferedReader(new FileReader("./data/stars/stardata.csv"));
       DefaultFormatter defaultFormatter = new DefaultFormatter();
-      CSVParser parser = new CSVParser(csvReader, true);
+      Boolean headerBool;
+      if (header.equals("true")) {
+        headerBool = true;
+      } else {
+        headerBool = false;
+      }
+      CSVParser parser = new CSVParser(csvReader, headerBool);
       List<List<String>> result = search(query, parser, column);
       CSVSearchResponse csvResponse = new CSVSearchResponse(ResultInfo.success, result, parameters);
-      // CSVResponse csvResponse = new CSVResponse(ResultInfo.success, "success", parameters);
       Moshi moshi = new Moshi.Builder().build();
 
       JsonAdapter<CSVSearchResponse> adapter = moshi.adapter(CSVSearchResponse.class);
-      // JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
       String successResponse = adapter.toJson(csvResponse);
       response.body(successResponse);
-    } catch (APIException e) {
+    } catch (FileNotFoundException e) {
       Map<String, String[]> parameters = request.queryMap().toMap();
-      CSVResponse csvResponse = new CSVResponse(e.getResultInfo(), e.getMessage(), parameters);
+      CSVResponse csvResponse =
+          new CSVResponse(ResultInfo.file_not_found_failure, e.getMessage(), parameters);
       Moshi moshi = new Moshi.Builder().build();
 
       JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
       String failureResponse = adapter.toJson(csvResponse);
       response.body(failureResponse);
-    } catch (FileNotFoundException e) {
+    } catch (APIException e) {
       Map<String, String[]> parameters = request.queryMap().toMap();
-      CSVResponse csvResponse =
-          new CSVResponse(ResultInfo.internal_failure, e.getMessage(), parameters);
+      CSVResponse csvResponse = new CSVResponse(e.getResultInfo(), e.getMessage(), parameters);
       Moshi moshi = new Moshi.Builder().build();
 
       JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
@@ -77,17 +81,22 @@ public class SearchCSV implements Route {
 
   private List<List<String>> search(String query, CSVParser parser, String column) {
 
-    List<List<String>> rows = parser.getRawResults();
-    List<List<String>> result;
-    CSVSearchUtility searcher = new CSVSearchUtility(rows);
-    if (column.matches("\\d+")) {
-      Integer colIdx = Integer.parseInt(column, 10);
-      result = searcher.findWord(query, colIdx);
-    } else {
-      result = searcher.findWord(query, column);
-    }
+    try {
+      List<List<String>> rows = parser.Parse();
+      List<List<String>> result;
+      CSVSearchUtility searcher = new CSVSearchUtility(rows);
+      if (column.matches("\\d+")) {
+        Integer colIdx = Integer.parseInt(column, 10);
+        result = searcher.findWord(query, colIdx);
+      } else {
+        result = searcher.findWord(query, column);
+      }
 
-    return result;
+      return result;
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return null;
   }
 
   private void checkQuery(String query) throws APIException {

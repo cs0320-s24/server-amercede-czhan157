@@ -73,6 +73,8 @@ public class CSVParser {
           } else {
             String[] columns = new String[2048];
             columns = line.split(commaString); // split based on splitting character
+            List<String> columnList = Arrays.asList(columns);
+            rawRows.add(columnList);
             this.numColumns = columns.length; // update number of columns
           }
           firstLine = false;

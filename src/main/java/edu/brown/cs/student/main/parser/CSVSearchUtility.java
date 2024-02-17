@@ -87,12 +87,12 @@ public class CSVSearchUtility {
     List<List<String>> searchResults = new ArrayList<>();
 
     for (List<String> row : this.infos) {
-      if ((columnIndex >= 0) && row.get(columnIndex).contains(searchWord)) {
+      if ((columnIndex >= 0) && row.get(columnIndex).equals(searchWord)) {
         searchResults.add(row);
       } else if (columnIndex == -1) {
         // if the column index is negative 1, no target index is specified
         for (String column : row) {
-          if (column.contains(searchWord)) {
+          if (column.equals(searchWord)) {
             searchResults.add(row);
           }
         }

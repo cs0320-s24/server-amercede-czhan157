@@ -27,9 +27,7 @@ public class TestLoadCSV extends TestSetup {
   @Test
   public void testLoadCsvSuccess() {
     try {
-      HttpURLConnection c =
-          tryRequest(
-              "loadcsv?filepath=src/test/java/edu/brown/cs/student/data/stars/stardata.csv&header=true");
+      HttpURLConnection c = tryRequest("loadcsv?filepath=./data/stars/stardata.csv&header=true");
 
       Moshi moshi = new Moshi.Builder().build();
       CSVResponse response =
@@ -37,9 +35,7 @@ public class TestLoadCSV extends TestSetup {
 
       assertEquals("success", response.result().toString());
       assertEquals(200, c.getResponseCode());
-      assertEquals(
-          "src/test/java/edu/brown/cs/student/data/stars/stardata.csv",
-          response.params().get("filepath")[0]);
+      assertEquals("./data/stars/stardata.csv", response.params().get("filepath")[0]);
       c.disconnect();
     } catch (IOException e) {
       System.out.println(e);
