@@ -10,6 +10,7 @@ import spark.Spark;
 
 public class Server {
   private static Datasource state;
+  private boolean isCSVLoaded = false;
 
   public Server(Datasource state, String csvUtility) {
 
@@ -27,10 +28,44 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    Spark.get("loadcsv", new LoadCSV(csvUtility));
-    Spark.get("viewcsv", new ViewCSV(csvUtility));
-    Spark.get("searchcsv", new SearchCSV(csvUtility));
+    Spark.get(
+        "loadcsv",
+        (request, response) -> {
+          isCSVLoaded = true;
+          return new LoadCSV(csvUtility).handle(request, response);
+        });
+
+    Spark.get(
+        "viewcsv",
+        (request, response) -> { // Handler for viewing CSV
+          if (isCSVLoaded) { // Check if CSV is loaded
+            return new ViewCSV(csvUtility).handle(request, response); // Proceed to handle request
+          } else {
+            response.status(400); // If CSV is not loaded, return status 400 (Bad Request)
+            return "CSV data not loaded yet.";
+          }
+        });
+
+    Spark.get(
+        "searchcsv",
+        (request, response) -> { // Handler for searching CSV
+          if (isCSVLoaded) { // Check if CSV is loaded
+            return new SearchCSV(csvUtility).handle(request, response); // Proceed to handle request
+          } else {
+            response.status(400); // If CSV is not loaded, return status 400 (Bad Request)
+            return "CSV data not loaded yet.";
+          }
+        });
+
     Spark.get("census", new BroadbandHandler(state));
+    // Handle unspecified routes
+    Spark.get(
+        "*",
+        (request, response) -> {
+          response.header("Content-Type", "application/json");
+          return "{}"; // Return empty JSON object for unspecified routes
+        });
+
     // Handle unspecified routes
     Spark.get(
         "*",
