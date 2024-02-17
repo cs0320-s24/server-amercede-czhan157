@@ -19,9 +19,7 @@ public class CSVParser {
    * CSV Parser class constructor
    *
    * @param reader: a reader to read from data
-   * @param creatorFromRow: row formatter
    * @param headers: indicates whether the data to be parsed has a header line
-   * @param commaString: character to split on
    */
   public CSVParser(Reader reader, Boolean headers) {
 

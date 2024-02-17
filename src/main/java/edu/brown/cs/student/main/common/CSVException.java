@@ -1,5 +1,5 @@
 package edu.brown.cs.student.main.common;
-
+/** Exception for CSV-related functions */
 public class CSVException extends Exception {
   private final ResultInfo resultType;
   private final String message;

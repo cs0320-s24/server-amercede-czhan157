@@ -16,6 +16,10 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/**
+ * CSV handler to view the CSV. If the CSV has already been loaded, this endpoint will show the
+ * contents of the CSV on the user end screen.
+ */
 public class ViewCSV implements Route {
   private String parserFile;
   private static final String dirPath = "";
@@ -23,7 +27,7 @@ public class ViewCSV implements Route {
   public ViewCSV(String parserFile) {
     this.parserFile = parserFile;
   }
-
+  /** Main function to handle requests and give back a response. */
   @Override
   public Object handle(Request request, Response response) {
     response.header("Content-Type", "application/json");

@@ -1,5 +1,5 @@
 package edu.brown.cs.student.main.common;
-
+/** Exception for API Calls */
 public class APIException extends Exception {
   private final ResultInfo resultInfo;
   private final String message;

@@ -19,20 +19,23 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/**
+ * Handler to search a CSV, given an already loaded CSV, a query, and column indices/names and
+ * header flags.
+ */
 public class SearchCSV implements Route {
 
   private final String parserFile;
-  // private static final String dirPath = "./data/";
-  private static final String dirPath = "";
 
   public SearchCSV(String parserFile) {
     this.parserFile = parserFile;
   }
 
+  /** Main function to handle requests and give back a response. */
   @Override
   public Object handle(Request request, Response response) {
 
-    try { // response.header("Content-Type", "application/json");
+    try {
 
       Map<String, String[]> parameters = request.queryMap().toMap();
       String query = request.queryParams("query");
@@ -40,7 +43,7 @@ public class SearchCSV implements Route {
       String header = request.queryParams("header");
 
       checkQuery(query);
-      Reader csvReader = new BufferedReader(new FileReader(dirPath + parserFile));
+      Reader csvReader = new BufferedReader(new FileReader(parserFile));
       DefaultFormatter defaultFormatter = new DefaultFormatter();
       Boolean headerBool;
       if (header.equals("true")) {
@@ -77,7 +80,7 @@ public class SearchCSV implements Route {
 
     return null;
   }
-
+  /** Main function to search, using CVSSearchUtility from sprint 1. */
   private List<List<String>> search(String query, CSVParser parser, String column) {
 
     try {
@@ -97,11 +100,12 @@ public class SearchCSV implements Route {
     }
     return null;
   }
-
+  /** Function to check if query is well-formed */
   private void checkQuery(String query) throws APIException {
 
-    if (query == null || query.contains("-") || query.contains("_")) {
-      throw new APIException(ResultInfo.bad_request_failure, "query parameter is missing");
+    if (query == null || query.contains("_")) {
+      throw new APIException(
+          ResultInfo.bad_request_failure, "query parameter is missing or contains _");
     }
   }
 }

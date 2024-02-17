@@ -8,22 +8,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.Spark;
 
+/** Main server class executing queries to both CSVs and Census API */
 public class Server {
   private static Datasource state;
   private boolean isCSVLoaded = false;
 
   public Server(Datasource state, String csvUtility) {
 
-    // Register the handlers properly
-
     // CORS configuration
     Spark.after(
         (request, response) -> {
-          System.out.println("31");
-          System.out.println(request.queryMap().toMap());
-          System.out.println("31");
-          // System.out.println(request.headers());
-          // System.out.println(response.body());
           response.header("Access-Control-Allow-Origin", "*");
           response.header("Access-Control-Allow-Methods", "*");
         });
@@ -79,8 +73,7 @@ public class Server {
       throws URISyntaxException, IOException, InterruptedException {
 
     Datasource state = new CensusAPI();
-    // String csvUtility = "./data/stars/stardata.csv";
-    String csvUtility = "./data/stars/stardata.csv";
+    String csvUtility = "./data/stars/stardata.csv"; // developer can input the CSV string
     int port = 3232;
     Spark.port(port);
     Logger.getLogger("").setLevel(Level.WARNING);

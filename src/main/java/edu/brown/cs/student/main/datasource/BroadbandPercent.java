@@ -82,4 +82,18 @@ public class BroadbandPercent {
   public List<List<String>> getBroadbandPercent() {
     return theListOfBroadbandPercent;
   }
+
+  /** Class to organize broadband data format */
+  public static class Broadband {
+    //    ["NAME","S2802_C03_022E","state","county"]
+    private String NAME;
+    private double S2802_C03_022E;
+    private String state;
+    private String county;
+
+    @Override
+    public String toString() {
+      return this.NAME + " with " + this.S2802_C03_022E + " broadband percentage.";
+    }
+  }
 }

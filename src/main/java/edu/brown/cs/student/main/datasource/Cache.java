@@ -13,7 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-/** Finder interface that takes care of findWeather both in deployment and mocking. */
+/** Cache */
 public interface Cache {
 
   default List<List<String>> BroadbandPercent(String stateNum, String countyNum)
