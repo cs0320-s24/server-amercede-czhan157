@@ -97,23 +97,20 @@ public class TestSearchCSV extends TestSetup {
   }
 
   /** Ensure Searchcsv returns successful response if provided valid inputs * */
-  // @Test
-  // public void testSearchCsvSuccess() {
-  //   load("src/test/java/edu/brown/cs/student/data/stars/stardata.csv", true);
-  //   try {
-  //     HttpURLConnection conn = tryRequest("/searchcsv?query=Sol&column=1&header=true");
-  //     // Get an OK response (the *connection* worked, the *API* provides an error response)
-  //     assertEquals(200, conn.getResponseCode());
-  //     Moshi moshi = new Moshi.Builder().build();
-  //     CSVResponse response =
-  //         moshi.adapter(CSVResponse.class).fromJson(new
-  // Buffer().readFrom(conn.getInputStream()));
-  //     assertEquals(ResultInfo.success, response.result());
-  //     // assertEquals(2, response.data().size());
-  //     // assertEquals("Rigel Kentaurus B", response.data().get(0).get(1));
-  //     conn.disconnect();
-  //   } catch (IOException e) {
-  //     fail(e);
-  //   }
-  // }
+  @Test
+  public void testSearchCsvSuccess() {
+    load("./data/stars/stardata.csv", true);
+    try {
+      HttpURLConnection conn = tryRequest("./data/stars/stardata.csv");
+      assertEquals(200, conn.getResponseCode());
+      Moshi moshi = new Moshi.Builder().build();
+      CSVResponse response =
+          moshi.adapter(CSVResponse.class).fromJson(new Buffer().readFrom(conn.getInputStream()));
+      assertEquals(ResultInfo.success, response.result());
+      // assertEquals(2, response.data().size());
+      conn.disconnect();
+    } catch (IOException e) {
+      fail(e);
+    }
+  }
 }

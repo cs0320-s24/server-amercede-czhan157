@@ -8,11 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CSVParser<T> {
+public class CSVParser {
   private Reader reader;
-  private CreatorFromRow<T> creator;
   private List<List<String>> rawRows = null; // to store raw row data
-  private List<T> processedRows = null; // to store processed row data
   private Boolean headers = false; // default is to not have headers
   private String commaString = ","; // default character to split on
   private Integer numColumns = 0;
@@ -27,20 +25,14 @@ public class CSVParser<T> {
    * @param commaString: character to split on
    */
   public CSVParser(
-      Reader reader, CreatorFromRow<T> creatorFromRow, String commaString, Boolean headers) {
+      Reader reader, Boolean headers) {
 
     if (reader == null) {
       throw new IllegalArgumentException("Reader must not be null.");
     }
 
-    if (creatorFromRow == null) {
-      throw new IllegalArgumentException("Creator formatter must not be null.");
-    }
-
     this.reader = reader;
-    this.creator = creatorFromRow;
     this.headers = headers;
-    this.commaString = commaString;
   }
 
   /**
@@ -48,8 +40,8 @@ public class CSVParser<T> {
    *
    * @throws Exception
    */
-  public List<T> Parse() throws Exception {
-    return parse(this.headers, this.commaString);
+  public List<List<String>> Parse() throws Exception {
+    return parse(this.headers, ",");
   }
 
   private void processHeaders(String headerLine, String commaString) {
@@ -65,11 +57,11 @@ public class CSVParser<T> {
    * @param commaType: string to split on
    * @throws Exception
    */
-  public List<T> parse(Boolean headers, String commaType)
+  public List<List<String>> parse(Boolean headers, String commaType)
       throws FactoryFailureException, Exception {
 
     this.rawRows = new ArrayList<>(); // will eventually contain raw data
-    this.processedRows = new ArrayList<T>(); // will eventually contain with formatted data
+    
     this.columnNames = null;
     this.numColumns = 0;
 
@@ -84,34 +76,16 @@ public class CSVParser<T> {
             String[] columns = new String[2048];
             columns = line.split(commaString); // split based on splitting character
             this.numColumns = columns.length; // update number of columns
-            addFormatRow(line, commaString);
           }
           firstLine = false;
         }
       }
-    } catch (FactoryFailureException e) {
-      throw e;
-
     } catch (Exception e) {
       throw e;
     }
-    return processedRows;
+    return rawRows;
   }
 
-  /**
-   * creates formatted creator objects out of column values of a single row
-   *
-   * @param line: input row to be split
-   * @param commaString: character for row to be split on
-   */
-  private void addFormatRow(String line, String commaString) throws FactoryFailureException {
-    String[] colNames = line.split(commaString);
-    List<String> columnValues = Arrays.asList(colNames);
-
-    this.rawRows.add(columnValues);
-    T processedRow = this.creator.create(columnValues);
-    this.processedRows.add(processedRow);
-  }
 
   /**
    * returns the raw rows
@@ -122,14 +96,7 @@ public class CSVParser<T> {
     return this.rawRows;
   }
 
-  /**
-   * returns the processed rows
-   *
-   * @return list of processed rows
-   */
-  public List<T> getProcessedRows() {
-    return this.processedRows;
-  }
+
 
   /**
    * returns column names

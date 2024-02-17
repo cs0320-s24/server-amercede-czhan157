@@ -9,33 +9,15 @@ import spark.Spark;
 public class Server {
   private static Datasource state;
 
-  //   public Server(Datasource state) {
-
-  //     String csvUtility = "data/stars/stardata.csv";
-
-  //     Spark.get("/loadcsv", new LoadCSV(csvUtility));
-  //     Spark.get("/viewCSV", new ViewCSV(csvUtility));
-  //     Spark.get("/loadcsv", new SearchCSV(csvUtility));
-  //     Spark.get("/census", new BroadbandHandler(state));
-
-  //     Spark.get(
-  //         "*",
-  //         (request, response) -> {
-  //           response.header("Content-Type", "application/json");
-  //           response.body();
-
-  //           return null;
-  //         });
-  //   }
   public Server(Datasource state) {
     String csvUtility =
         "/Users/carolinezhang/Downloads/server-amercede-czhan157/data/stars/stardata.csv";
 
     // Register the handlers properly
     Spark.get("loadcsv", new LoadCSV(csvUtility));
-    Spark.get("/viewcsv", new ViewCSV(csvUtility));
-    Spark.get("/searchcsv", new SearchCSV(csvUtility));
-    Spark.get("/census", new BroadbandHandler(state));
+    Spark.get("viewcsv", new ViewCSV(csvUtility));
+    Spark.get("searchcsv", new SearchCSV(csvUtility));
+    Spark.get("census", new BroadbandHandler(state));
 
     // CORS configuration
     Spark.before(
@@ -56,36 +38,7 @@ public class Server {
 
   public static void main(String[] args)
       throws URISyntaxException, IOException, InterruptedException {
-    // Datasource state = new CensusAPI();
 
-    // int port = 3232;
-    // Spark.port(port);
-    // after(
-    //     (request, response) -> {
-    //       response.header("Access-Control-Allow-Origin", "*");
-    //       // response.header("Access-Control-Allow-Methods", "*");
-    //       response.header("Access-Control-Allow-Origin", "loadcsv");
-    //       response.header("Access-Control-Allow-Origin", "census");
-    //       response.header("Access-Control-Allow-Origin", "viewcsv");
-    //       response.header("Access-Control-Allow-Origin", "searchcsv");
-    //     });
-
-    // Spark.get("broadband", new BroadbandHandler(state));
-
-    // // I need to find where this is held
-    // // String broadbandAsJson = BroadbandData.readInJson("data/broadband.json");
-    // // List<Broadband> broadbandList = new ArrayList<>();
-    // // try {
-    // //  broadbandList = BroadbandData.deserializeBroadbandJson(broadbandAsJson);
-    // // } catch (Exception e) {
-    // // See note in ActivityHandler about this broad Exception catch... Unsatisfactory, but gets
-    // // the job done in the gearup where it is not the focus.
-    // //  e.printStackTrace();
-    // //  System.err.println("Errored while deserializing the broadbandList");
-    // // }
-    // Spark.init();
-    // Spark.awaitInitialization();
-    // System.out.println("Server started at http://localhost:" + port);
     Datasource state = new CensusAPI();
 
     int port = 3232;

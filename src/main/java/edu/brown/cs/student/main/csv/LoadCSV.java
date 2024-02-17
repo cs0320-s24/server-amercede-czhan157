@@ -20,7 +20,6 @@ import spark.Response;
 import spark.Route;
 
 public class LoadCSV implements Route {
-  // private static final String dirPath = "./src/test/java/edu/brown/cs/student/data/";
   private static final String dirPath = "";
   // have user potentially input the allowed directory path
   //
@@ -42,12 +41,12 @@ public class LoadCSV implements Route {
       checkHeader(hasHeader);
       try {
         Reader reader = new FileReader(dirPath + filePath);
-        CSVParser<List<List<String>>> csvParser;
+        CSVParser csvParser;
         Reader csvReader = new BufferedReader(new FileReader(filePath));
         DefaultFormatter defaultFormatter = new DefaultFormatter();
 
-        CSVParser<List<List<String>>> parser =
-            new CSVParser(csvReader, defaultFormatter, ",", true);
+        CSVParser parser =
+            new CSVParser(csvReader, true);
 
         CSVResponse csvResponse =
             new CSVResponse(ResultInfo.success, "Successfully loaded CSV!", parameters);

@@ -32,34 +32,18 @@ public class SearchCSV implements Route {
   @Override
   public Object handle(Request request, Response response) {
     // use a responseMap
-    try {
-      Map<String, String[]> parameters = request.queryMap().toMap();
-    } catch (Exception e) {
-    }
 
     try { // response.header("Content-Type", "application/json");
       // fetching parameters
+      Map<String, String[]> parameters = request.queryMap().toMap();
       String query = request.queryParams("query");
       String column = request.queryParams("column");
       String header = request.queryParams("header");
-    } catch (Exception e) {
-      Map<String, String[]> parameters = request.queryMap().toMap();
-      CSVResponse csvResponse =
-          new CSVResponse(ResultInfo.bad_json_failure, e.getMessage(), parameters);
-      Moshi moshi = new Moshi.Builder().build();
 
-      JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
-      String failureResponse = adapter.toJson(csvResponse);
-      response.body(failureResponse);
-    }
-    try {
-      String query = request.queryParams("query");
-      String column = request.queryParams("column");
       checkQuery(query);
       Reader csvReader = new BufferedReader(new FileReader(dirPath + this.parserFile));
       DefaultFormatter defaultFormatter = new DefaultFormatter();
-      Map<String, String[]> parameters = request.queryMap().toMap();
-      CSVParser<List<List<String>>> parser = new CSVParser(csvReader, defaultFormatter, ",", true);
+      CSVParser parser = new CSVParser(csvReader, true);
       List<List<String>> result = search(query, parser, column);
       CSVSearchResponse csvResponse = new CSVSearchResponse(ResultInfo.success, result, parameters);
       // CSVResponse csvResponse = new CSVResponse(ResultInfo.success, "success", parameters);
@@ -92,7 +76,7 @@ public class SearchCSV implements Route {
   }
 
   private List<List<String>> search(
-      String query, CSVParser<List<List<String>>> parser, String column) {
+      String query, CSVParser parser, String column) {
 
     List<List<String>> rows = parser.getRawResults();
     List<List<String>> result;
