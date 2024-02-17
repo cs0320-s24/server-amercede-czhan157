@@ -51,22 +51,24 @@ public class TestCountyCodes {
 
   @Test
   public void testThrowsIOExceptionForNull()
-          throws URISyntaxException, IOException, InterruptedException {
+      throws URISyntaxException, IOException, InterruptedException {
 
-    assertThrows(IOException.class,
-            () -> {
-
-              CountyCodes theOfficialCountyCodes = new CountyCodes(null);
-            });
+    assertThrows(
+        IOException.class,
+        () -> {
+          CountyCodes theOfficialCountyCodes = new CountyCodes(null);
+        });
   }
+
   @Test
   public void testThrowsIOExceptionForString()
-          throws URISyntaxException, IOException, InterruptedException {
+      throws URISyntaxException, IOException, InterruptedException {
 
-    assertThrows(IOException.class,
-            () -> {
-              //It will say CountyCodes: string wasn't valid JSON.
-              CountyCodes theOfficialCountyCodes = new CountyCodes("hello");
-            });
+    assertThrows(
+        IOException.class,
+        () -> {
+          // It will say CountyCodes: string wasn't valid JSON.
+          CountyCodes theOfficialCountyCodes = new CountyCodes("hello");
+        });
   }
 }

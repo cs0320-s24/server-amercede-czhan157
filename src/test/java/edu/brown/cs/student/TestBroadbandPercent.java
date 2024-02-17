@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
-
-import edu.brown.cs.student.main.datasource.CountyCodes;
 import org.junit.jupiter.api.Test;
 
 public class TestBroadbandPercent {
@@ -41,29 +39,32 @@ public class TestBroadbandPercent {
     List<String> theListWeNeedOfBroadbandPercent = theListOfBroadbandPercents.get(1);
     assertEquals("88.5", theListWeNeedOfBroadbandPercent.get(1));
   }
+
   @Test
   public void testThrowsIOExceptionForNullInStateNum()
-          throws URISyntaxException, IOException, InterruptedException {
+      throws URISyntaxException, IOException, InterruptedException {
 
-    assertThrows(IOException.class,
-            () -> {
-              //Should give error message: BroadbandPercent: string wasn't valid JSON.
-              BroadbandPercent theOfficialBroadbandPercents =
-                      new BroadbandPercent(null, "199");
-            });
+    assertThrows(
+        IOException.class,
+        () -> {
+          // Should give error message: BroadbandPercent: string wasn't valid JSON.
+          BroadbandPercent theOfficialBroadbandPercents = new BroadbandPercent(null, "199");
+        });
   }
+
   @Test
   public void testThrowsIOExceptionForNullInCountyNum()
-          throws URISyntaxException, IOException, InterruptedException {
+      throws URISyntaxException, IOException, InterruptedException {
 
-    assertThrows(IOException.class,
-            () -> {
-              //Should give error message: BroadbandPercent: string wasn't valid JSON.
-              BroadbandPercent theOfficialBroadbandPercents =
-                      new BroadbandPercent("51", null);
-            });
+    assertThrows(
+        IOException.class,
+        () -> {
+          // Should give error message: BroadbandPercent: string wasn't valid JSON.
+          BroadbandPercent theOfficialBroadbandPercents = new BroadbandPercent("51", null);
+        });
   }
 
-  //Example query to test: http://localhost:3232/census?statename=Alabama&countyname=Morgan%20County
-  //Should display: {"broadband":["Morgan County, Alabama","75.2","01","103"],"type":"success"}
+  // Example query to test:
+  // http://localhost:3232/census?statename=Alabama&countyname=Morgan%20County
+  // Should display: {"broadband":["Morgan County, Alabama","75.2","01","103"],"type":"success"}
 }

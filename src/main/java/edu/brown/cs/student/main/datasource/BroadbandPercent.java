@@ -14,9 +14,10 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 /**
- * BroadbandPercent handles getting the list of BroadbandPercent for the BroadbandHandler. It requests it from the
- * census API and deserializes it, so that the getBroadbandPercent function can return a List of list of Strings
- * that contains the Broadband Percent and that Java can actually use.
+ * BroadbandPercent handles getting the list of BroadbandPercent for the BroadbandHandler. It
+ * requests it from the census API and deserializes it, so that the getBroadbandPercent function can
+ * return a List of list of Strings that contains the Broadband Percent and that Java can actually
+ * use.
  */
 public class BroadbandPercent {
 

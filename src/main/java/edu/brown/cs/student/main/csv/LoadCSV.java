@@ -1,8 +1,12 @@
 package edu.brown.cs.student.main.csv;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.common.CSVException;
 import edu.brown.cs.student.main.common.CSVResponse;
 import edu.brown.cs.student.main.common.ResultInfo;
+import edu.brown.cs.student.main.parser.DefaultFormatter;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -16,7 +20,8 @@ import spark.Response;
 import spark.Route;
 
 public class LoadCSV implements Route {
-  private static final String dirPath = "./data/";
+  // private static final String dirPath = "./src/test/java/edu/brown/cs/student/data/";
+  private static final String dirPath = "";
   // have user potentially input the allowed directory path
   //
   private final String csvFile;
@@ -38,20 +43,31 @@ public class LoadCSV implements Route {
       try {
         Reader reader = new FileReader(dirPath + filePath);
         CSVParser<List<List<String>>> csvParser;
-        // appending success response
-        String successResponse =
-            new CSVResponse(ResultInfo.success, "Successfully loaded CSV", parameters).serialize();
+        Reader csvReader = new BufferedReader(new FileReader(filePath));
+        DefaultFormatter defaultFormatter = new DefaultFormatter();
+
+        CSVParser<List<List<String>>> parser =
+            new CSVParser(csvReader, defaultFormatter, ",", true);
+
+        CSVResponse csvResponse =
+            new CSVResponse(ResultInfo.success, "Successfully loaded CSV!", parameters);
+        Moshi moshi = new Moshi.Builder().build();
+        String successResponse = moshi.adapter(CSVResponse.class).toJson(csvResponse);
+
         response.body(successResponse);
       } catch (IOException e) {
         throw new CSVException(ResultInfo.bad_request_failure, "Failed to read CSV");
       }
     } catch (CSVException e) {
       // appending failure response
-      String failureResponse =
-          new CSVResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
+      CSVResponse csvResponse = new CSVResponse(e.getResultInfo(), e.getMessage(), parameters);
+      Moshi moshi = new Moshi.Builder().build();
+
+      JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
+      String failureResponse = adapter.toJson(csvResponse);
       response.body(failureResponse);
     }
-    return "Success!";
+    return null;
   }
 
   private void checkFilePath(String filePath) throws CSVException {

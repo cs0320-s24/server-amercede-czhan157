@@ -1,5 +1,7 @@
 package edu.brown.cs.student;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.common.CSVResponse;
 import edu.brown.cs.student.main.common.ResultInfo;
 import edu.brown.cs.student.main.csv.LoadCSV;
@@ -37,9 +39,15 @@ public class TestSetup {
         "*",
         (request, response) -> {
           response.header("Content-Type", "application/json");
-          response.body(
-              new CSVResponse(ResultInfo.bad_request_failure, "Unexpected endpoints.", null)
-                  .serialize());
+
+          CSVResponse csvResponse =
+              new CSVResponse(ResultInfo.bad_request_failure, "Unexpected endpoints.", null);
+          Moshi moshi = new Moshi.Builder().build();
+
+          JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
+          String failureResponse = adapter.toJson(csvResponse);
+          response.body(failureResponse);
+
           return null;
         });
     Spark.init();

@@ -14,7 +14,7 @@ Project name:
         https://github.com/cs0320-s24/server-amercede-czhan157
 # Design Choices
     Explain the relationships between classes/interfaces:
-        
+        The end user can use LoadCSV, SearchCSV, and ViewCSV to obtain information relevant to the CSVs they are interested in. The CSVs must be loaded through LoadCSV prior to any API call to SearchCSV or ViewCSV. These endpoints use the CSVParser from the last sprint
     Discuss any specific data structures you used, why you created it, and other high level explanations.
 
 # Errors/Bugs

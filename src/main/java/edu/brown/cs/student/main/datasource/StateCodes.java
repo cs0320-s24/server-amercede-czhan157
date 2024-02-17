@@ -14,9 +14,9 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 /**
- * StateCodes handles getting the list of State Codes for the BroadbandHandler. It requests it from the
- * census API and deserializes it, so that the getStateCodes function can return a List of list of Strings
- * that contains state codes and that Java can actually use.
+ * StateCodes handles getting the list of State Codes for the BroadbandHandler. It requests it from
+ * the census API and deserializes it, so that the getStateCodes function can return a List of list
+ * of Strings that contains state codes and that Java can actually use.
  */
 public class StateCodes {
 

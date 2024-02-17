@@ -1,8 +1,12 @@
 package edu.brown.cs.student.main.csv;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.common.CSVException;
 import edu.brown.cs.student.main.common.CSVResponse;
 import edu.brown.cs.student.main.common.ResultInfo;
+import edu.brown.cs.student.main.parser.DefaultFormatter;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
@@ -14,6 +18,7 @@ import spark.Route;
 
 public class ViewCSV implements Route {
   private String parserFile;
+  private static final String dirPath = "./data/";
 
   public ViewCSV(String parserFile) {
     this.parserFile = parserFile;
@@ -30,14 +35,25 @@ public class ViewCSV implements Route {
             ResultInfo.bad_request_failure, "viewcsv should not have any parameters.");
       Reader reader = new FileReader(this.parserFile);
       CSVParser<List<List<String>>> csvParser;
-      String successResponse =
-          new CSVResponse(ResultInfo.success, "SUCCESS", parameters).serialize();
+
+      Reader csvReader = new BufferedReader(new FileReader(dirPath + parserFile));
+      DefaultFormatter defaultFormatter = new DefaultFormatter();
+
+      CSVParser<List<List<String>>> parser = new CSVParser(csvReader, defaultFormatter, ",", true);
+
+      CSVResponse csvResponse = new CSVResponse(ResultInfo.success, "SUCCESS", parameters);
+      Moshi moshi = new Moshi.Builder().build();
+
+      JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
+      String successResponse = adapter.toJson(csvResponse);
       response.body(successResponse);
     } catch (CSVException e) {
-      // appending failure response
-      String failureResponse =
-          new CSVResponse(e.getResultInfo(), e.getMessage(), parameters).serialize();
-      response.body(failureResponse);
+      CSVResponse csvResponse = new CSVResponse(e.getResultInfo(), e.getMessage(), parameters);
+      Moshi moshi = new Moshi.Builder().build();
+
+      JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
+      String successResponse = adapter.toJson(csvResponse);
+      response.body(successResponse);
     } catch (FileNotFoundException e) {
       // appending failure response
       String failureResponse = "File not found!";

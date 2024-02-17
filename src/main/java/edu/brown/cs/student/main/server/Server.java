@@ -28,7 +28,8 @@ public class Server {
   //         });
   //   }
   public Server(Datasource state) {
-    String csvUtility = "data/stars/stardata.csv";
+    String csvUtility =
+        "/Users/carolinezhang/Downloads/server-amercede-czhan157/data/stars/stardata.csv";
 
     // Register the handlers properly
     Spark.get("loadcsv", new LoadCSV(csvUtility));

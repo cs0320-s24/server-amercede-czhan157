@@ -15,9 +15,9 @@ import spark.Response;
 import spark.Route;
 
 /**
- * Broadband handler handles getting the query from the web browser and returning a response.
- * It uses the classes StateCodes, CountyCodes and BroadbandPercent to handle most of the functionality of
- * getting the actual broadband percent of the state and county the user queries
+ * Broadband handler handles getting the query from the web browser and returning a response. It
+ * uses the classes StateCodes, CountyCodes and BroadbandPercent to handle most of the functionality
+ * of getting the actual broadband percent of the state and county the user queries
  */
 public class BroadbandHandler implements Route {
   private final Datasource state;
@@ -87,8 +87,7 @@ public class BroadbandHandler implements Route {
     // Generate the reply
     try {
       responseMap.put("type", "success");
-      responseMap.put(
-          "broadband", theListWeNeedOfBroadbandPercent);
+      responseMap.put("broadband", theListWeNeedOfBroadbandPercent);
 
       return adapter.toJson(responseMap);
     } catch (IllegalArgumentException e) {
@@ -99,8 +98,7 @@ public class BroadbandHandler implements Route {
       responseMap.put("error_type", "bad_parameter");
       responseMap.put("details", e.getMessage());
       return adapter.toJson(responseMap);
-    }
-    catch(Exception e){
+    } catch (Exception e) {
       return e.getMessage();
     }
   }

@@ -1,10 +1,3 @@
-package edu.brown.cs.student.main.common;
-
-import java.util.Map;
-
-public record BroadbandResponse(ResultInfo result, String message, Map<String, String[]> params)
-    implements APIResponse {}
-
             // proxy - intermediary step between a database
     // proxy modifies info from database and do whatever with it
     // before it reaches the user.
