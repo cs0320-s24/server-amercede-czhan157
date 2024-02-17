@@ -27,7 +27,7 @@ public class TestSearchCSV extends TestSetup {
 
   /** Ensure Searchcsv properly handles searching before loading * */
   @Test
-  public void testWebRequestSearchCsvFileNotLoaded() {
+  public void testCsvNotLoaded() {
     try {
       HttpURLConnection c = tryRequest("/searchcsv?");
       assertEquals(200, c.getResponseCode());
@@ -62,7 +62,7 @@ public class TestSearchCSV extends TestSetup {
 
   /** Ensure Searchcsv properly handles invalid no parameters * */
   @Test
-  public void testSearchCsvFailWithNoParams() {
+  public void testSearchNoParams() {
     load("src/test/java/edu/brown/cs/student/data/stars/stardata.csv", true);
     try {
       HttpURLConnection conn = tryRequest("/searchcsv");
@@ -79,7 +79,7 @@ public class TestSearchCSV extends TestSetup {
 
   /** Ensure Searchcsv properly handles bad urls * */
   @Test
-  public void testSearchCsvFailWithErrorExpression() {
+  public void testSearchCsvBadURL() {
     load("src/test/java/edu/brown/cs/student/data/stars/stardata.csv", false);
     try {
       HttpURLConnection conn = tryRequest("/searchcsv?query=bad_parameters");
