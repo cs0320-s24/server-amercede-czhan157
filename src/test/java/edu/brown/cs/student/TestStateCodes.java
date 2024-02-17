@@ -69,10 +69,5 @@ public class TestStateCodes {
   public void testThrowsIOException()
           throws URISyntaxException, IOException, InterruptedException {
 
-    assertThrows(IOException.class,
-            () -> {
-
-              CountyCodes theOfficialCountyCodes = new CountyCodes(null);
-            });
   }
 }

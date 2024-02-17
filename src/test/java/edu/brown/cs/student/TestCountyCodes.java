@@ -65,7 +65,7 @@ public class TestCountyCodes {
 
     assertThrows(IOException.class,
             () -> {
-
+              //It will say CountyCodes: string wasn't valid JSON.
               CountyCodes theOfficialCountyCodes = new CountyCodes("hello");
             });
   }

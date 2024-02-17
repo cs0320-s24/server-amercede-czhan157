@@ -5,47 +5,47 @@ Make sure you package these classes properly so that you earn the Code Organizat
 **Project details**
 
     Project name:
-        CSV
+        Server
     Team members and contributions:
-        amercede - Alexandra Mercedes-Santos -> Broadband Functionality and Handler, a bit of Server 25hrs
-        czhan157 - Caroline Zhang -> Loadcsv, Searchcsv, Viewcsv, and Most Server
-    Total estimated time it took to complete project:
-        26 hours
+        amercede - Alexandra Mercedes-Santos -> Broadband Functionality and Handler and its tests
+        , a bit of Server ~ 25hrs
+        czhan157 - Caroline Zhang -> Loadcsv, Searchcsv, Viewcsv,
+        and its tests and Most main Server class
     A link to your repo:
-        https://github.com/cs0320-s24/csv-amercede.git
+       https://github.com/cs0320-s24/server-amercede-czhan157.git
 **Design choices**
 
     Explain the relationships between classes/interfaces:
-        Main calls the searcher class and uses its foundRows method to print out the rows
-        that contain an string that the user is looking for. The Searcher method uses the
-        Parser class to get the list it needs to more effectively search. The Parser uses the
-        CreatorFromRow interface. The Searcher uses the ReturnT class to implement
-        CreatorFromRow and uses this. The BrokenReturnT also implements the CreatorFromRow
-        interface, but it's used for testing purposes.
+        We decided to make out main running folder in our server folder titled Server. This would call the
+        handlers of each function of the server and set up the server to run. In this Folder is the broadbandhandler,
+        which is called by the Server to handle the broadband side of things.
+        In the common folder we handle minor technical things like exceptions, records and objects to help other files run.
+        In the csv folder we have our csv handlers: loadcsv, searchcsv, and viewcsv, which handle the functionality and
+        response to queries to those endpoints.
+        The datasource folder contains all the classes that are needed to get the broadband percent including some helper
+        classes like StateCodes, CountyCodes and BroadbandPercent to help with the broadband functionality.
+        The parser class contains the functionality needed for the csv handlers. Including parsing and searching.
     Discuss any specific data structures you used, why you created it, and other high level explanations.
-        I used List of
+        We used List of List of Strings many times instead of a hashmap, because we thought it would be good to
+        help us more easily work with json and in the event of caching help us save some memory, instead of working
+        with a list of objects.
 
 **Errors/Bugs** -- Write reproduction steps for all the bugs in your program.
 
-    Some errors that I have are with my searcher function, It cannot handle looking for items
-    that have commas for a specific item in the CSV. It also has extra brackets at the ends of the
-    rows, but I'm not sure how to fix this. The user also needs to be very exact with their
-    input of the string object they're looking for. The strings at the end of the rows won't be
-    able to be searched, because of the brackets.
-    The Parser doesn't throw any exceptions or end the program when its being made with
-    arguments that are null.
+    We don't quite have the broadband percent know how to handle instances where the state code or county code
+    is not found. We also have limits in our program due to some counties not being counted, due to their small
+    population
 
 **Tests** -- Explain the testing suites that you implemented for your program and how each test ensures that a part of the program works.
-    I made CreatorFromRowTests that tests the FactoryFailureException from the CreatorFromRow
-    interface using BrokenReturnT that implements it. SearcherTests shows how the Searcher will keep
-    running well with a null columnName. It also shows that there will be a null pointer exception
-    thrown when the object is null. ParserTests shows that NullPointerException is thrown when
-    returnParser method is called with a null argument.
+    In TestCountyCodes, TestStateCodes and TestBroadbandPercent we have the testing suite run some cases where
+    the input is null or the query theoretically could be null. We also compare some expected lists of sample
+    inputs and run them with the expected outputs
 **How to…**
     Run the tests you wrote/were provided
-        The searcher tests will need a valid file directory to be passed into the created searcher
-        class for the tests to work. It will also need other valid inputs.
+        In TestCountyCodes and TestBroadbandPercent you would need to put a valid statecode and countycode and
+        know what the expected output would be.
     Build and run your program
-        Call the main class in the the main folder. Follow the prompts given by the main class and
-        input the details it asks for. The program will then print out the rows of the object the
-        user is searching for.
+        Call the server class in the the server folder. Use queries like this one with the proper endpoints:
+        http://localhost:3232/census?statename=Alabama&countyname=Morgan%20County
+        Acceptable endpoints are: census, loadcsv, searchcsv, viewcsv
+        You would then put the proper queries like statename or filepath

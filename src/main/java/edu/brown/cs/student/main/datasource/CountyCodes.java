@@ -13,6 +13,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
+/**
+ * CountyCodes handles getting the list of County Codes for the BroadbandHandler. It takes in a String StateCode
+ * number. It requests it from the census API and deserializes it, so that the getCountyCodes function
+ * can return a List of list of Strings that contains county codes that Java can actually use.
+ */
 public class CountyCodes {
 
   private List<List<String>> theListOfCountyCodes;
