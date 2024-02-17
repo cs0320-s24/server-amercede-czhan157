@@ -109,7 +109,6 @@ public class TestSearchCSV extends TestSetup {
           moshi
               .adapter(CSVSearchResponse.class)
               .fromJson(new Buffer().readFrom(conn.getInputStream()));
-      System.out.println(response);
       assertEquals(ResultInfo.success, response.result());
       assertEquals(1, response.data().size());
       conn.disconnect();
@@ -129,7 +128,6 @@ public class TestSearchCSV extends TestSetup {
           moshi
               .adapter(CSVSearchResponse.class)
               .fromJson(new Buffer().readFrom(conn.getInputStream()));
-      System.out.println(response);
       assertEquals(ResultInfo.success, response.result());
       assertEquals(0, response.data().size());
       conn.disconnect();
@@ -149,7 +147,6 @@ public class TestSearchCSV extends TestSetup {
           moshi
               .adapter(CSVSearchResponse.class)
               .fromJson(new Buffer().readFrom(conn.getInputStream()));
-      System.out.println(response);
       assertEquals(ResultInfo.success, response.result());
       assertEquals(1, response.data().size());
       conn.disconnect();
@@ -169,7 +166,6 @@ public class TestSearchCSV extends TestSetup {
           moshi
               .adapter(CSVSearchResponse.class)
               .fromJson(new Buffer().readFrom(conn.getInputStream()));
-      System.out.println(response);
       assertEquals(ResultInfo.success, response.result());
       assertEquals(0, response.data().size());
       conn.disconnect();
@@ -189,7 +185,6 @@ public class TestSearchCSV extends TestSetup {
           moshi
               .adapter(CSVSearchResponse.class)
               .fromJson(new Buffer().readFrom(conn.getInputStream()));
-      System.out.println(response);
       assertEquals(ResultInfo.success, response.result());
       assertEquals(1, response.data().size());
       conn.disconnect();
@@ -209,7 +204,6 @@ public class TestSearchCSV extends TestSetup {
           moshi
               .adapter(CSVSearchResponse.class)
               .fromJson(new Buffer().readFrom(conn.getInputStream()));
-      System.out.println(response);
       assertEquals(ResultInfo.success, response.result());
       assertEquals(1, response.data().size());
       conn.disconnect();

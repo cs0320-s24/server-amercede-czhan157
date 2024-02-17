@@ -7,8 +7,6 @@ import edu.brown.cs.student.main.common.CSVResponse;
 import edu.brown.cs.student.main.common.CSVSearchResponse;
 import edu.brown.cs.student.main.common.ResultInfo;
 import edu.brown.cs.student.main.parser.CSVSearchUtility;
-import edu.brown.cs.student.main.parser.CreatorFromRow.*;
-import edu.brown.cs.student.main.parser.DefaultFormatter;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -44,7 +42,6 @@ public class SearchCSV implements Route {
 
       checkQuery(query);
       Reader csvReader = new BufferedReader(new FileReader(parserFile));
-      DefaultFormatter defaultFormatter = new DefaultFormatter();
       Boolean headerBool;
       if (header.equals("true")) {
         headerBool = true;

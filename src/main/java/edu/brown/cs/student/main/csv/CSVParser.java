@@ -1,6 +1,5 @@
 package edu.brown.cs.student.main.csv;
 
-import edu.brown.cs.student.main.parser.FactoryFailureException;
 import java.io.BufferedReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -53,8 +52,7 @@ public class CSVParser {
    * @param commaType: string to split on
    * @throws Exception
    */
-  public List<List<String>> parse(Boolean headers, String commaType)
-      throws FactoryFailureException, Exception {
+  public List<List<String>> parse(Boolean headers, String commaType) throws Exception {
 
     this.rawRows = new ArrayList<>(); // will eventually contain raw data
 
