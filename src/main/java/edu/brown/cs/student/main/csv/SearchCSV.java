@@ -23,7 +23,7 @@ public class SearchCSV implements Route {
 
   private final String parserFile;
   // private static final String dirPath = "./data/";
-  private static final String dirPath = "";
+  private static final String dirPath = "./data/";
 
   public SearchCSV(String parserFile) {
     this.parserFile = parserFile;
@@ -31,17 +31,16 @@ public class SearchCSV implements Route {
 
   @Override
   public Object handle(Request request, Response response) {
-    // use a responseMap
 
     try { // response.header("Content-Type", "application/json");
-      // fetching parameters
+
       Map<String, String[]> parameters = request.queryMap().toMap();
       String query = request.queryParams("query");
       String column = request.queryParams("column");
       String header = request.queryParams("header");
 
       checkQuery(query);
-      Reader csvReader = new BufferedReader(new FileReader("./data/stars/stardata.csv"));
+      Reader csvReader = new BufferedReader(new FileReader(dirPath + parserFile));
       DefaultFormatter defaultFormatter = new DefaultFormatter();
       Boolean headerBool;
       if (header.equals("true")) {

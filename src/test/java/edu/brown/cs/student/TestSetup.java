@@ -31,11 +31,10 @@ public class TestSetup {
           response.header("Access-Control-Allow-Origin", "*");
           response.header("Access-Control-Allow-Methods", "*");
         });
-    String csv = "loadcsv?filepath=src/test/java/edu/brown/cs/student/data/stars/stardata.csv";
-    Spark.get("loadcsv", new LoadCSV("src/test/java/edu/brown/cs/student/data/stars/stardata.cs"));
-    Spark.get("viewcsv", new ViewCSV("src/test/java/edu/brown/cs/student/data/stars/stardata.cs"));
-    Spark.get(
-        "searchcsv", new SearchCSV("src/test/java/edu/brown/cs/student/data/stars/stardata.cs"));
+    String csv = "stars/stardata.csv";
+    Spark.get("loadcsv", new LoadCSV(csv));
+    Spark.get("viewcsv", new ViewCSV(csv));
+    Spark.get("searchcsv", new SearchCSV(csv));
     Spark.get(
         "*",
         (request, response) -> {
@@ -43,6 +42,7 @@ public class TestSetup {
 
           CSVResponse csvResponse =
               new CSVResponse(ResultInfo.bad_request_failure, "Unexpected endpoints.", null);
+          System.out.println("happening in setup");
           Moshi moshi = new Moshi.Builder().build();
 
           JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);

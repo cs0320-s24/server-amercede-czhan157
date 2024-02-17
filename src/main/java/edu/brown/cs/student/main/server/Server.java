@@ -4,14 +4,14 @@ import edu.brown.cs.student.main.csv.*;
 import edu.brown.cs.student.main.datasource.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spark.Spark;
 
 public class Server {
   private static Datasource state;
 
-  public Server(Datasource state) {
-    String csvUtility =
-        "/Users/carolinezhang/Downloads/server-amercede-czhan157/data/stars/stardata.csv";
+  public Server(Datasource state, String csvUtility) {
 
     // Register the handlers properly
     Spark.get("loadcsv", new LoadCSV(csvUtility));
@@ -23,6 +23,7 @@ public class Server {
     Spark.before(
         (request, response) -> {
           response.header("Access-Control-Allow-Origin", "*");
+          response.header("Access-Control-Allow-Methods", "*");
           response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
           response.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
         });
@@ -40,12 +41,13 @@ public class Server {
       throws URISyntaxException, IOException, InterruptedException {
 
     Datasource state = new CensusAPI();
-
+    String csvUtility = "./data/stars/stardata.csv";
     int port = 3232;
     Spark.port(port);
+    Logger.getLogger("").setLevel(Level.WARNING);
 
     // Initialize and start the server
-    new Server(state);
+    new Server(state, csvUtility);
     System.out.println("Server started at http://localhost:" + port);
   }
 }

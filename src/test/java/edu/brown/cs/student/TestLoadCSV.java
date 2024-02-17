@@ -101,7 +101,7 @@ public class TestLoadCSV extends TestSetup {
       Moshi moshi = new Moshi.Builder().build();
       CSVResponse response =
           moshi.adapter(CSVResponse.class).fromJson(new Buffer().readFrom(c.getInputStream()));
-      assertEquals(ResultInfo.datasource_failure, response.result());
+      assertEquals(ResultInfo.file_not_found_failure, response.result());
       c.disconnect();
     } catch (IOException e) {
       fail(e);

@@ -18,7 +18,7 @@ import spark.Route;
 
 public class ViewCSV implements Route {
   private String parserFile;
-  private static final String dirPath = "./data/stars/stardata.csv";
+  private static final String dirPath = "./data/";
 
   public ViewCSV(String parserFile) {
     this.parserFile = parserFile;
@@ -34,7 +34,7 @@ public class ViewCSV implements Route {
         throw new CSVException(
             ResultInfo.bad_request_failure, "viewcsv should not have any parameters.");
 
-      Reader csvReader = new BufferedReader(new FileReader("./data/stars/stardata.csv"));
+      Reader csvReader = new BufferedReader(new FileReader(dirPath + this.parserFile));
 
       CSVParser parser = new CSVParser(csvReader, true);
       List<List<String>> rawRows = parser.Parse();

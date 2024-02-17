@@ -77,7 +77,12 @@ public class LoadCSV implements Route {
     }
     // check file is exists
     if (!Files.exists(Paths.get(dirPath, filePath))) {
-      throw new CSVException(ResultInfo.datasource_failure, "Error: file path does not exist.");
+      throw new CSVException(ResultInfo.file_not_found_failure, "Error: file path does not exist.");
+    }
+
+    if (!(filePath.length() > 6 & filePath.startsWith("./data/"))) {
+      throw new CSVException(
+          ResultInfo.bad_request_failure, "Error: file pathcannot exist outside main director");
     }
   }
 
@@ -88,8 +93,3 @@ public class LoadCSV implements Route {
         "you must indicate whether there is a header via true or false");
   }
 }
-
-    // server isn't main function, but if it were: server is the manager, controls all
-    // endpoints it has - endpoints are classes servers will connect to
-    // you need to have it implement route -- route transforms normal class into an endpoin
-    // route will make you create a handle method
