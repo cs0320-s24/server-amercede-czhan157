@@ -14,7 +14,7 @@ Project name:
         https://github.com/cs0320-s24/server-amercede-czhan157
 # Design Choices
     Explain the relationships between classes/interfaces:
-        The end user can use LoadCSV, SearchCSV, and ViewCSV to obtain information relevant to the CSVs they are interested in. The CSVs must be loaded through LoadCSV prior to any API call to SearchCSV or ViewCSV. These endpoints use the CSVParser from the last sprint.
+        The developer can input a file path to a CSV and then use LoadCSV, SearchCSV, and ViewCSV to obtain information relevant to the inputted CSVs. The CSVs must be loaded through LoadCSV prior to any API call to SearchCSV or ViewCSV. These endpoints use the CSVParser and CSVSearchUtility from the last sprint.
 
         The CSV-specific classes also throw various error messages informing the user if something goes awry. We also created corresponding ENUMs to make these error messages more concise. 
         We decided to make out main running folder in our server folder titled Server. This would call the
@@ -31,24 +31,33 @@ Project name:
     We used List of List of Strings many times instead of a hashmap, because we thought it would be good to
         help us more easily work with json and in the event of caching help us save some memory, instead of working
         with a list of objects.
+    We created data structures to store the responses from requests to the CSV endpoints. These classes store the response type, and relevant information to the response. We also created several Exception classes to thoroughly check for any malformed inputs. 
 
 # Errors/Bugs
     We don't quite have the broadband percent know how to handle instances where the state code or county code
     is not found. We also have limits in our program due to some counties not being counted, due to their small
     population
+    Currently, our tests for LoadCSV, ViewCSV, and SearchCSV are passing, however when accessing these endpoints via the server, we are running into 404 not found errors. We are unsure if this is because of improperly formatted filepaths. Our suspicion is that the three CSV endpoints are not properly "sharing" the filepath, as they are currently hardcoded in. 
 
 # Tests
 Explain the testing suites that you implemented for your program and how each test ensures that a part of the program works.
     In TestCountyCodes, TestStateCodes and TestBroadbandPercent we have the testing suite run some cases where
     the input is null or the query theoretically could be null. We also compare some expected lists of sample
     inputs and run them with the expected outputs
+    We test that LoadCSV returns an informative error message when given improper inputs, and returns a success code upon valid inputs.
+    We test that ViewCSV properly retrieves relevant information from the CSV for viewing, provided that a valid CSV has already been loaded. In any other case, we assert that the proper error reponse is given.
+    In SearchCSV, we test to make sure that it only returns a successful response if the CSV has already been loaded, and if all queries are present and valid. We check to ensure proper handling of non-valid inputs. 
 
 # How to
 Run the tests you wrote/were provided
-        In TestCountyCodes and TestBroadbandPercent you would need to put a valid statecode and countycode and
-        know what the expected output would be.
+        In TestCountyCodes and TestBroadbandPercent you would need to put a valid statecode and countycode and know what the expected output would be.
+
+        Our entire test suite can be automatically run by compiling vs mvn package.
     Build and run your program
         Call the server class in the the server folder. Use queries like this one with the proper endpoints:
         http://localhost:3232/census?statename=Alabama&countyname=Morgan%20County
+        http://localhost:3232/loadcsv?filepath=./data/stars/stardata.csv&header=true
+        http://localhost:3232/viewcsv
+        http://localhost:3232/searchcsv?query=Sol&column=1&header=true
         Acceptable endpoints are: census, loadcsv, searchcsv, viewcsv
         You would then put the proper queries like statename or filepath
