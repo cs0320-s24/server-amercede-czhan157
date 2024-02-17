@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.brown.cs.student.main.csv.CSVParser;
-import edu.brown.cs.student.main.parser.CSVSearchUtility;
+import edu.brown.cs.student.main.csv.CSVSearchUtility;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -6,7 +6,6 @@ import edu.brown.cs.student.main.common.APIException;
 import edu.brown.cs.student.main.common.CSVResponse;
 import edu.brown.cs.student.main.common.CSVSearchResponse;
 import edu.brown.cs.student.main.common.ResultInfo;
-import edu.brown.cs.student.main.parser.CSVSearchUtility;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

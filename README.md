@@ -37,7 +37,6 @@ Project name:
     We don't quite have the broadband percent know how to handle instances where the state code or county code
     is not found. We also have limits in our program due to some counties not being counted, due to their small
     population
-    Currently, our tests for LoadCSV, ViewCSV, and SearchCSV are passing, however when accessing these endpoints via the server, we are running into 404 not found errors. We are unsure if this is because of improperly formatted filepaths. Our suspicion is that the three CSV endpoints are not properly "sharing" the filepath, as they are currently hardcoded in. 
 
 # Tests
 Explain the testing suites that you implemented for your program and how each test ensures that a part of the program works.
@@ -47,6 +46,7 @@ Explain the testing suites that you implemented for your program and how each te
     We test that LoadCSV returns an informative error message when given improper inputs, and returns a success code upon valid inputs.
     We test that ViewCSV properly retrieves relevant information from the CSV for viewing, provided that a valid CSV has already been loaded. In any other case, we assert that the proper error reponse is given.
     In SearchCSV, we test to make sure that it only returns a successful response if the CSV has already been loaded, and if all queries are present and valid. We check to ensure proper handling of non-valid inputs. 
+We have both unit tests and integration tests for both CSV and Broadband functionality. 
 
 # How to
 Run the tests you wrote/were provided
@@ -61,3 +61,6 @@ Run the tests you wrote/were provided
         http://localhost:3232/searchcsv?query=Sol&column=1&header=true
         Acceptable endpoints are: census, loadcsv, searchcsv, viewcsv
         You would then put the proper queries like statename or filepath
+
+Note that to run TestBroadBandWebAPI.java, you must
+start the server first, and then test. Running mvn package without the TestBroadBandWebAPI commented out will result in error. 
