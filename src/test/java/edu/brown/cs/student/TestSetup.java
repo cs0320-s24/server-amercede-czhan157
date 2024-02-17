@@ -31,7 +31,7 @@ public class TestSetup {
           response.header("Access-Control-Allow-Origin", "*");
           response.header("Access-Control-Allow-Methods", "*");
         });
-    String csv = "stars/stardata.csv";
+    String csv = "./data/stars/stardata.csv";
     Spark.get("loadcsv", new LoadCSV(csv));
     Spark.get("viewcsv", new ViewCSV(csv));
     Spark.get("searchcsv", new SearchCSV(csv));

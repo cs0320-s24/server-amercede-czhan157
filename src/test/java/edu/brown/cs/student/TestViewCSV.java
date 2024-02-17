@@ -46,7 +46,6 @@ public class TestViewCSV extends TestSetup {
     try {
       HttpURLConnection conn =
           tryRequest("/loadcsv?filepath=./data/stars/stardata.csv&header=true");
-      // Get an OK response (the *connection* worked, the *API* provides an error response)
       assertEquals(200, conn.getResponseCode());
       conn.disconnect();
     } catch (IOException e) {

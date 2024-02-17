@@ -53,6 +53,12 @@
       <version>2.9.3</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>31.1-jre</version>
+    </dependency>
+
     <!--
            TestNG builds useful functionality on top of JUnit, such as method annotations.
     -->

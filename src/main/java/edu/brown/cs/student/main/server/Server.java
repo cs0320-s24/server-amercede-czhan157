@@ -14,20 +14,23 @@ public class Server {
   public Server(Datasource state, String csvUtility) {
 
     // Register the handlers properly
+
+    // CORS configuration
+    Spark.after(
+        (request, response) -> {
+          System.out.println("31");
+          System.out.println(request.queryMap().toMap());
+          System.out.println("31");
+          // System.out.println(request.headers());
+          // System.out.println(response.body());
+          response.header("Access-Control-Allow-Origin", "*");
+          response.header("Access-Control-Allow-Methods", "*");
+        });
+
     Spark.get("loadcsv", new LoadCSV(csvUtility));
     Spark.get("viewcsv", new ViewCSV(csvUtility));
     Spark.get("searchcsv", new SearchCSV(csvUtility));
     Spark.get("census", new BroadbandHandler(state));
-
-    // CORS configuration
-    Spark.before(
-        (request, response) -> {
-          response.header("Access-Control-Allow-Origin", "*");
-          response.header("Access-Control-Allow-Methods", "*");
-          response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-          response.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        });
-
     // Handle unspecified routes
     Spark.get(
         "*",
@@ -41,6 +44,7 @@ public class Server {
       throws URISyntaxException, IOException, InterruptedException {
 
     Datasource state = new CensusAPI();
+    // String csvUtility = "./data/stars/stardata.csv";
     String csvUtility = "./data/stars/stardata.csv";
     int port = 3232;
     Spark.port(port);
@@ -48,6 +52,8 @@ public class Server {
 
     // Initialize and start the server
     new Server(state, csvUtility);
+    Spark.init();
+    Spark.awaitInitialization();
     System.out.println("Server started at http://localhost:" + port);
   }
 }

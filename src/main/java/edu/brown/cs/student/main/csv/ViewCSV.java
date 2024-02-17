@@ -18,7 +18,7 @@ import spark.Route;
 
 public class ViewCSV implements Route {
   private String parserFile;
-  private static final String dirPath = "./data/";
+  private static final String dirPath = "";
 
   public ViewCSV(String parserFile) {
     this.parserFile = parserFile;

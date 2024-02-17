@@ -47,7 +47,7 @@ public class TestLoadCSV extends TestSetup {
   @Test
   public void testLoadCsvFailWithOutFilepathParam() {
     try {
-      HttpURLConnection c = tryRequest("/loadcsv?header=false");
+      HttpURLConnection c = tryRequest("loadcsv?header=false");
       assertEquals(200, c.getResponseCode());
       Moshi moshi = new Moshi.Builder().build();
       CSVResponse response =
@@ -96,7 +96,7 @@ public class TestLoadCSV extends TestSetup {
   @Test
   public void testLoadCsvFail() {
     try {
-      HttpURLConnection c = tryRequest("/loadcsv?filepath=stars/xxxx.csv&header=false");
+      HttpURLConnection c = tryRequest("loadcsv?filepath=stars/xxxx.csv&header=false");
       assertEquals(200, c.getResponseCode());
       Moshi moshi = new Moshi.Builder().build();
       CSVResponse response =
@@ -113,7 +113,7 @@ public class TestLoadCSV extends TestSetup {
   public void testBadFilePath() {
     try {
       HttpURLConnection c =
-          tryRequest("/loadcsv?filepath=stars/../../data/stardata.csv&header=true");
+          tryRequest("loadcsv?filepath=stars/../../data/stardata.csv&header=true");
       assertEquals(200, c.getResponseCode());
       Moshi moshi = new Moshi.Builder().build();
       CSVResponse response =

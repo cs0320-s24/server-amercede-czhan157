@@ -66,7 +66,7 @@ public class TestSearchCSV extends TestSetup {
   public void testSearchNoParams() {
     load("src/test/java/edu/brown/cs/student/data/stars/stardata.csv", true);
     try {
-      HttpURLConnection conn = tryRequest("/searchcsv");
+      HttpURLConnection conn = tryRequest("searchcsv");
       assertEquals(200, conn.getResponseCode());
       Moshi moshi = new Moshi.Builder().build();
       CSVResponse response =
@@ -81,7 +81,7 @@ public class TestSearchCSV extends TestSetup {
   /** Ensure Searchcsv properly handles bad urls * */
   @Test
   public void testSearchCsvBadURL() {
-    load("src/test/java/edu/brown/cs/student/data/stars/stardata.csv", false);
+    load("./data/stars/stardata.csv", false);
     try {
       HttpURLConnection conn = tryRequest("/searchcsv?query=bad_parameters");
       assertEquals(200, conn.getResponseCode());

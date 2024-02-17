@@ -23,7 +23,7 @@ public class SearchCSV implements Route {
 
   private final String parserFile;
   // private static final String dirPath = "./data/";
-  private static final String dirPath = "./data/";
+  private static final String dirPath = "";
 
   public SearchCSV(String parserFile) {
     this.parserFile = parserFile;

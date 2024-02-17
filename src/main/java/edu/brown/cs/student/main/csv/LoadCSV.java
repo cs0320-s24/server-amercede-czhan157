@@ -5,7 +5,6 @@ import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.common.CSVException;
 import edu.brown.cs.student.main.common.CSVResponse;
 import edu.brown.cs.student.main.common.ResultInfo;
-import edu.brown.cs.student.main.parser.DefaultFormatter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -30,19 +29,26 @@ public class LoadCSV implements Route {
 
   @Override
   public Object handle(Request request, Response response) {
+    System.out.println("not yet");
     response.header("Content-Type", "application/json");
     // fetching parameters
     Map<String, String[]> parameters = request.queryMap().toMap();
+    System.out.println("in loadcsv");
+    // System.out.println(parameters.get("filepath").toString());
+    // System.out.println(parameters.get("header").toString());
     String filePath = request.queryParams("filepath");
     String hasHeader = request.queryParams("header");
+    System.out.println(filePath);
+    System.out.println(hasHeader);
+    System.out.println("retrieved");
     try {
       checkFilePath(filePath);
       checkHeader(hasHeader);
+      System.out.println("all valid");
       try {
         Reader reader = new FileReader(dirPath + filePath);
         CSVParser csvParser;
         Reader csvReader = new BufferedReader(new FileReader(filePath));
-        DefaultFormatter defaultFormatter = new DefaultFormatter();
 
         CSVParser parser = new CSVParser(csvReader, true);
 
@@ -52,6 +58,7 @@ public class LoadCSV implements Route {
         String successResponse = moshi.adapter(CSVResponse.class).toJson(csvResponse);
 
         response.body(successResponse);
+        System.out.println(response.toString());
       } catch (IOException e) {
         throw new CSVException(ResultInfo.bad_request_failure, "Failed to read CSV");
       }
@@ -59,7 +66,7 @@ public class LoadCSV implements Route {
       // appending failure response
       CSVResponse csvResponse = new CSVResponse(e.getResultInfo(), e.getMessage(), parameters);
       Moshi moshi = new Moshi.Builder().build();
-
+      System.out.println("CSVException");
       JsonAdapter<CSVResponse> adapter = moshi.adapter(CSVResponse.class);
       String failureResponse = adapter.toJson(csvResponse);
       response.body(failureResponse);
@@ -77,6 +84,8 @@ public class LoadCSV implements Route {
     }
     // check file is exists
     if (!Files.exists(Paths.get(dirPath, filePath))) {
+      System.out.println("file not found for whatever reason");
+      System.out.println(Paths.get(dirPath, filePath).toString());
       throw new CSVException(ResultInfo.file_not_found_failure, "Error: file path does not exist.");
     }
 
